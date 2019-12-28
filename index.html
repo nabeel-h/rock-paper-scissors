@@ -8,6 +8,102 @@
 
         <script>
             console.log("Loading Rock-Paper-Scissors...");
+            let playerSelection = null;
+            let computerSelection = null;
+            let roundResult = null;
+            let scoreKeeper = {
+                            player: 0,
+                            computer: 0,
+                            roundLog: [],
+                            };
+
+
+            for (let i = 0; i < 5; i++) {
+                    console.log(`Round ${i + 1}!`);
+                    computerSelection = computerPlayer();
+                    playerSelection = prompt("Rock? Paper? Scissors?:").toLowerCase();
+
+                    while (!(playerSelection === "rock" || playerSelection === "paper" || playerSelection === "scissors")) {
+                        playerSelection = prompt("Invalid Entry! Please enter Rock, Paper or Scissors!:").toLowerCase();
+                    };
+
+                    roundResult = playRound(playerSelection, computerSelection);
+                    console.log(roundResult);
+                    scoreKeeper.roundLog.push(roundResult);
+                    if (roundResult.search("Lose") > 0) {
+                        scoreKeeper.computer += 1;
+                    } else if (roundResult.search("Win") > 0) {
+                        scoreKeeper.player += 1;
+                    };
+
+                }
+            //console.table(scoreKeeper);
+            numberOfDraws = 5 - (scoreKeeper.player + scoreKeeper.computer)
+            
+            if (scoreKeeper.player > scoreKeeper.computer) {
+                console.log(`You won! ${scoreKeeper.player}(You) to ${scoreKeeper.computer}(Computer) with ${numberOfDraws} draws.`);
+            } else if (scoreKeeper.player < scoreKeeper.computer) {
+                console.log(`You lost! ${scoreKeeper.player}(You) to ${scoreKeeper.computer}(Computer) with ${numberOfDraws} draws.`);
+            } else {
+                console.log(`You tied! ${scoreKeeper.player}(You) to ${scoreKeeper.computer}(Computer) with ${numberOfDraws} draws.`);
+            };
+
+
+            function computerPlayer() {
+                let randomNum = Math.floor((Math.random() * 3) + 1);
+                let computerSelection = (randomNum === 1) ? "Rock":
+                                      (randomNum === 2) ? "Paper": "Scissors"; 
+                return computerSelection;
+                                    };
+
+
+            function playRound (playerSelection, computerSelection) {
+                let result = null;
+                //playerSelection = playerSelection.toLowerCase();
+                computerSelection = computerSelection.toLowerCase();
+                //console.log(`Player Selection: ${playerSelection} Computer Selection: ${computerSelection}`);
+
+                if (playerSelection === computerSelection) {
+                    result = `Draw! ${playerSelection} = ${computerSelection}`;
+                    return result; 
+                };
+
+                switch (playerSelection) {
+                    case "rock":
+                        switch (computerSelection) {
+                            case "paper":
+                                result = "You Lose! Paper beats Rock";
+                                break;
+                            case "scissors":
+                                result = "You Win! Rock beats Scissors";
+                                break;
+                        }
+                    break;
+                    case "paper":
+                        switch (computerSelection) {
+                            case "scissors":
+                                result = "You Lose! Scissors beats Paper";
+                                break;
+                            case "rock":
+                                result = "You Win! Paper beats Rock";
+                                break;
+                        }
+                    break;
+                    case "scissors":
+                        switch (computerSelection) {
+                            case "rock":
+                                result = "You Lose! Rock beats Scissors";
+                                break;
+                            case "paper":
+                                result = "You Win! Scissors beat Paper";
+                                break;
+                        }
+                    break;
+                };
+                return result;
+            };
+                
+
         </script>
     </body>
 </html>
