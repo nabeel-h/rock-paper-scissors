@@ -10,23 +10,24 @@
             let gameResults = game();
             let playerScore = gameResults.player;
             let computerScore = gameResults.computer;
-            numberOfDraws = 5 - (playerScore + computerScore);
+            let numberOfDraws = gameResults.draws;
             
             let gameOutcome = (playerScore > computerScore) ? "You Won the Game":
                                (playerScore < computerScore) ? "You Lost the Game": "Draw game"; 
             let gameSummary = `${gameOutcome}! ${playerScore}(You) to ${computerScore}(Computer) with ${numberOfDraws} draws.`
             console.log(gameSummary);
             
-            function game () {
+            function game (rounds = 5) {
                 console.log("Loading Rock-Paper-Scissors...");
                 let gameResults = {
                                 player: 0,
                                 computer: 0,
-                                roundLog: [],
+                                draws: 0,
+                                roundLog: []
                                 };
 
-                for (let i = 0; i < 5; i++) {
-                        console.log(`Round ${i + 1}`);
+                for (let i = 0; i < rounds; i++) {
+                        console.log(`Round ${i + 1} of ${rounds}`);
                         let computerSelection = computerPlayer();
                         let playerSelection = humanPlayer();
                         let roundResult = playRound(playerSelection, computerSelection);
@@ -37,6 +38,8 @@
                             gameResults.computer += 1;
                         } else if (roundResult.search("Win") > 0) {
                             gameResults.player += 1;
+                        } else {
+                            gameResults.draws += 1;
                         };
                     }
                 return gameResults;
