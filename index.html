@@ -7,48 +7,49 @@
         <p>Rock-Paper-Scissors game</p>
 
         <script>
-            console.log("Loading Rock-Paper-Scissors...");
-            let playerSelection = null;
-            let computerSelection = null;
-            let roundResult = null;
-            let scoreKeeper = {
-                            player: 0,
-                            computer: 0,
-                            roundLog: [],
-                            };
-
-
-            for (let i = 0; i < 5; i++) {
-                    console.log(`Round ${i + 1}!`);
-                    computerSelection = computerPlayer();
-                    playerSelection = prompt("Rock? Paper? Scissors?:").toLowerCase();
-
-                    while (!(playerSelection === "rock" || playerSelection === "paper" || playerSelection === "scissors")) {
-                        playerSelection = prompt("Invalid Entry! Please enter Rock, Paper or Scissors!:").toLowerCase();
-                    };
-
-                    roundResult = playRound(playerSelection, computerSelection);
-                    console.log(roundResult);
-                    scoreKeeper.roundLog.push(roundResult);
-                    if (roundResult.search("Lose") > 0) {
-                        scoreKeeper.computer += 1;
-                    } else if (roundResult.search("Win") > 0) {
-                        scoreKeeper.player += 1;
-                    };
-
-                }
-            //console.table(scoreKeeper);
-            numberOfDraws = 5 - (scoreKeeper.player + scoreKeeper.computer)
+            let gameResults = game();
+            let playerScore = gameResults.player;
+            let computerScore = gameResults.computer;
+            numberOfDraws = 5 - (playerScore + computerScore);
             
-            if (scoreKeeper.player > scoreKeeper.computer) {
-                console.log(`You won! ${scoreKeeper.player}(You) to ${scoreKeeper.computer}(Computer) with ${numberOfDraws} draws.`);
-            } else if (scoreKeeper.player < scoreKeeper.computer) {
-                console.log(`You lost! ${scoreKeeper.player}(You) to ${scoreKeeper.computer}(Computer) with ${numberOfDraws} draws.`);
-            } else {
-                console.log(`You tied! ${scoreKeeper.player}(You) to ${scoreKeeper.computer}(Computer) with ${numberOfDraws} draws.`);
+            let gameOutcome = (playerScore > computerScore) ? "You Won the Game":
+                               (playerScore < computerScore) ? "You Lost the Game": "Draw game"; 
+            let gameSummary = `${gameOutcome}! ${playerScore}(You) to ${computerScore}(Computer) with ${numberOfDraws} draws.`
+            console.log(gameSummary);
+            
+            function game () {
+                console.log("Loading Rock-Paper-Scissors...");
+                let playerSelection = null;
+                let computerSelection = null;
+                let roundResult = null;
+                let gameResults = {
+                                player: 0,
+                                computer: 0,
+                                roundLog: [],
+                                };
+
+
+                for (let i = 0; i < 5; i++) {
+                        console.log(`Round ${i + 1}`);
+                        computerSelection = computerPlayer();
+                        playerSelection = prompt("Rock? Paper? Scissors?:").toLowerCase();
+
+                        while (!(playerSelection === "rock" || playerSelection === "paper" || playerSelection === "scissors")) {
+                            playerSelection = prompt("Invalid Entry! Please enter Rock, Paper or Scissors!:").toLowerCase();
+                        };
+
+                        roundResult = playRound(playerSelection, computerSelection);
+                        console.log(roundResult);
+                        gameResults.roundLog.push(roundResult);
+                        if (roundResult.search("Lose") > 0) {
+                            gameResults.computer += 1;
+                        } else if (roundResult.search("Win") > 0) {
+                            gameResults.player += 1;
+                        };
+                    }
+                return gameResults;
             };
-
-
+            
             function computerPlayer() {
                 let randomNum = Math.floor((Math.random() * 3) + 1);
                 let computerSelection = (randomNum === 1) ? "Rock":
@@ -64,7 +65,7 @@
                 //console.log(`Player Selection: ${playerSelection} Computer Selection: ${computerSelection}`);
 
                 if (playerSelection === computerSelection) {
-                    result = `Draw! ${playerSelection} = ${computerSelection}`;
+                    result = `Draw! ${capitalizeFirstLetter(playerSelection)} = ${capitalizeFirstLetter(computerSelection)}`;
                     return result; 
                 };
 
@@ -102,7 +103,10 @@
                 };
                 return result;
             };
-                
+            
+            function capitalizeFirstLetter(string) {
+                return string.charAt(0).toUpperCase() + string.slice(1);
+            };
 
         </script>
     </body>
