@@ -19,27 +19,19 @@
             
             function game () {
                 console.log("Loading Rock-Paper-Scissors...");
-                let playerSelection = null;
-                let computerSelection = null;
-                let roundResult = null;
                 let gameResults = {
                                 player: 0,
                                 computer: 0,
                                 roundLog: [],
                                 };
 
-
                 for (let i = 0; i < 5; i++) {
                         console.log(`Round ${i + 1}`);
-                        computerSelection = computerPlayer();
-                        playerSelection = prompt("Rock? Paper? Scissors?:").toLowerCase();
-
-                        while (!(playerSelection === "rock" || playerSelection === "paper" || playerSelection === "scissors")) {
-                            playerSelection = prompt("Invalid Entry! Please enter Rock, Paper or Scissors!:").toLowerCase();
-                        };
-
-                        roundResult = playRound(playerSelection, computerSelection);
+                        let computerSelection = computerPlayer();
+                        let playerSelection = humanPlayer();
+                        let roundResult = playRound(playerSelection, computerSelection);
                         console.log(roundResult);
+
                         gameResults.roundLog.push(roundResult);
                         if (roundResult.search("Lose") > 0) {
                             gameResults.computer += 1;
@@ -50,13 +42,20 @@
                 return gameResults;
             };
             
+            function humanPlayer() {
+                let playerSelection = prompt("Rock? Paper? Scissors?:").toLowerCase();
+                while (!(playerSelection === "rock" || playerSelection === "paper" || playerSelection === "scissors")) {
+                    playerSelection = prompt("Invalid Entry! Please enter Rock, Paper or Scissors!:").toLowerCase();
+                };
+                return playerSelection;
+            };
+
             function computerPlayer() {
                 let randomNum = Math.floor((Math.random() * 3) + 1);
                 let computerSelection = (randomNum === 1) ? "Rock":
                                       (randomNum === 2) ? "Paper": "Scissors"; 
                 return computerSelection;
-                                    };
-
+            };
 
             function playRound (playerSelection, computerSelection) {
                 let result = null;
