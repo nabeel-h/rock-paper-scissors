@@ -1,0 +1,60 @@
+#header {
+    border-bottom: solid;
+}
+
+#header > h1 {
+    text-align: center;
+}
+
+#container {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+#gameLog > p {
+    text-align: center;
+    font-style: italic;
+}
+
+#gameOutputs > p {
+    margin: 0 0 0 0;
+};
+
+#gameLog {
+    display: flex;
+    flex-direction: column;
+}
+
+#gameOutputs {
+    flex: 1 0 100px;
+    overflow: scroll;
+    max-height: 100px;
+}
+
+#scores {
+    display: flex;
+    flex-direction: row;
+}
+#scores > p {
+    margin: 20px 20px 20px 20px;
+}
+
+#controller > p {
+    text-align: center;
+    font-style: italic;
+}
+
+
+#controller > button {
+    padding: 4px 4px 4px 4px;
+}
+
+#playerInput {
+    text-align: center;
+}
+
+#beginGame {
+    text-align: center;
+}
+

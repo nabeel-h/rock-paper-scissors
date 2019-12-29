@@ -1,0 +1,112 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <title>Rock-Paper-Scissors</title>
+    </head>
+    <body>
+        <p>Rock-Paper-Scissors game</p>
+
+        <script>
+            let gameResults = game();
+            let playerScore = gameResults.player;
+            let computerScore = gameResults.computer;
+            numberOfDraws = 5 - (playerScore + computerScore);
+            
+            let gameOutcome = (playerScore > computerScore) ? "You Won the Game":
+                               (playerScore < computerScore) ? "You Lost the Game": "Draw game"; 
+            let gameSummary = `${gameOutcome}! ${playerScore}(You) to ${computerScore}(Computer) with ${numberOfDraws} draws.`
+            console.log(gameSummary);
+            
+            function game () {
+                console.log("Loading Rock-Paper-Scissors...");
+                let gameResults = {
+                                player: 0,
+                                computer: 0,
+                                roundLog: [],
+                                };
+
+                for (let i = 0; i < 5; i++) {
+                        console.log(`Round ${i + 1}`);
+                        let computerSelection = computerPlayer();
+                        let playerSelection = humanPlayer();
+                        let roundResult = playRound(playerSelection, computerSelection);
+                        console.log(roundResult);
+
+                        gameResults.roundLog.push(roundResult);
+                        if (roundResult.search("Lose") > 0) {
+                            gameResults.computer += 1;
+                        } else if (roundResult.search("Win") > 0) {
+                            gameResults.player += 1;
+                        };
+                    }
+                return gameResults;
+            };
+            
+            function humanPlayer() {
+                let playerSelection = prompt("Rock? Paper? Scissors?:").toLowerCase();
+                while (!(playerSelection === "rock" || playerSelection === "paper" || playerSelection === "scissors")) {
+                    playerSelection = prompt("Invalid Entry! Please enter Rock, Paper or Scissors!:").toLowerCase();
+                };
+                return playerSelection;
+            };
+
+            function computerPlayer() {
+                let randomNum = Math.floor((Math.random() * 3) + 1);
+                let computerSelection = (randomNum === 1) ? "Rock":
+                                      (randomNum === 2) ? "Paper": "Scissors"; 
+                return computerSelection;
+            };
+
+            function playRound (playerSelection, computerSelection) {
+                let result = null;
+                //playerSelection = playerSelection.toLowerCase();
+                computerSelection = computerSelection.toLowerCase();
+                //console.log(`Player Selection: ${playerSelection} Computer Selection: ${computerSelection}`);
+
+                if (playerSelection === computerSelection) {
+                    result = `Draw! ${capitalizeFirstLetter(playerSelection)} = ${capitalizeFirstLetter(computerSelection)}`;
+                    return result; 
+                };
+
+                switch (playerSelection) {
+                    case "rock":
+                        switch (computerSelection) {
+                            case "paper":
+                                result = "You Lose! Paper beats Rock";
+                                break;
+                            case "scissors":
+                                result = "You Win! Rock beats Scissors";
+                                break;
+                        }
+                    break;
+                    case "paper":
+                        switch (computerSelection) {
+                            case "scissors":
+                                result = "You Lose! Scissors beats Paper";
+                                break;
+                            case "rock":
+                                result = "You Win! Paper beats Rock";
+                                break;
+                        }
+                    break;
+                    case "scissors":
+                        switch (computerSelection) {
+                            case "rock":
+                                result = "You Lose! Rock beats Scissors";
+                                break;
+                            case "paper":
+                                result = "You Win! Scissors beat Paper";
+                                break;
+                        }
+                    break;
+                };
+                return result;
+            };
+            
+            function capitalizeFirstLetter(string) {
+                return string.charAt(0).toUpperCase() + string.slice(1);
+            };
+
+        </script>
+    </body>
+</html>
