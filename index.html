@@ -6,7 +6,9 @@
     </head>
     <body>
         <div id="header">
-            <h1> ROCK PAPER SCISSORS</h1>
+            <h2 id="lefth2">ROCK</h2>
+            <h2 id="middleh2">PAPER</h2>
+            <h2 id="righth2">SCISSORS</h2>
         </div>
         <div id="container">
             <div id="screen">
@@ -16,16 +18,22 @@
                     </div>
                 </div>
                 <div id="scores">
-                    <p id="playerScore">Player Score: </p>
-                    <p id="draws">Draws: </p>
-                    <p id="computerScore">Computer Score: </p>
+                    <p class ="vanillaScore" id="playerScore">Player Score: 0</p>
+                    <p class ="vanillaScore" id="draws">Draws: 0</p>
+                    <p class ="vanillaScore" id="computerScore">Computer Score: 0</p>
                 </div>
                 <div id="controller">
-                    <p id="gameStatus"></p>
+                    <p id="gameStatus">Make a selection to play!</p>
                     <div id="playerInput">
-                        <button class="playerInputBtn">Rock</button>
-                        <button class="playerInputBtn">Paper</button>
-                        <button class="playerInputBtn">Scissors</button>
+                        <button type ="submit" class="playerInputBtn" value="rock">
+                            <img src="assets/rock.png" width="64px" height="64px">
+                        </button>
+                        <button type ="submit" class="playerInputBtn" value="paper">
+                            <img src="assets/paper.png" width="64px" height="64px">
+                        </button>
+                        <button type="submit" class="playerInputBtn" value="scissors">
+                            <img src="assets/scissors.png" width="64px" height="64px">
+                        </button>
                     </div>
                     <div id="beginGame">
                         <button id="restartCurrGameBtn">Restart Game</button>

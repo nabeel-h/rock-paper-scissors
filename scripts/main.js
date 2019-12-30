@@ -6,6 +6,9 @@ let gameTracker = {
     roundCount: 0
 };
 
+const scores = Array.from(document.querySelectorAll('.vanillaScore'));
+  scores.forEach(score => score.addEventListener('animationend', removeScoreTransition));
+
 const resetLogBtn = document.querySelector("#resetLogBtn");
 resetLogBtn.addEventListener('click', clearGameLog);
 
@@ -15,7 +18,7 @@ restartCurrentGameBtn.addEventListener('click', restartCurrentGame);
 const playerInputButtons = document.querySelectorAll(".playerInputBtn");
 playerInputButtons.forEach((button) => {
     button.addEventListener("click", function(){
-        playGame(button.textContent);});
+        playGame(button.value);});
 });
 
 function updateGameStatus (status) {
@@ -24,26 +27,47 @@ function updateGameStatus (status) {
 
 function updatePlayerScore (score) {
     const playerScore = document.querySelector("#playerScore");
+    if (playerScore.textContent.split(":")[1] == score) {
+        return;
+    };
     let newPlayerScore = playerScore.textContent.split(":")[0] + ": " + score;
     playerScore.textContent = newPlayerScore;
+    playerScore.classList.add("scoreTransition");
 };
 
 function updateDraws (score) {
     const draws = document.querySelector("#draws");
+    if (draws.textContent.split(":")[1] == score) {
+        return;
+    };
     let newDraws = draws.textContent.split(":")[0] + ": " + score;
     draws.textContent = newDraws;
+    draws.classList.add("scoreTransition");
 };
 
 function updateComputerScore (score) {
     const computerScore = document.querySelector("#computerScore");
+    if (computerScore.textContent.split(":")[1] == score) {
+        return;
+    };
     let newComputerScore = computerScore.textContent.split(":")[0] + ": " + score;
     computerScore.textContent = newComputerScore;
+    computerScore.classList.add("scoreTransition");
 };
 
 function updateGameLog (logLine) {
     const gameLog = document.querySelector("#gameOutputs");
     const logLineP = document.createElement('p');
     logLineP.textContent = logLine;
+
+    if (logLine.search("Lose") >= 0 || logLine.search("Lost") >= 0 ) {
+        logLineP.classList.add("gameLogLose");
+    } else if (logLine.search("Win") >= 0 || logLine.search("Won") >= 0) {
+        logLineP.classList.add("gameLogWin");
+    } else if (logLine.search("Draw") >= 0) {
+        logLineP.classList.add("gameLogDraw");   
+    };
+
     gameLog.append(logLineP);
 };
 
@@ -66,20 +90,22 @@ function restartCurrentGame() {
     updateComputerScore(0);
     updateDraws(0);
     clearGameTracker();
+    updateGameLog("Game Reset");
+    updateScroll();
 };
 
 function playGame(playerSelection) {
     playerSelection = playerSelection.toLowerCase();
     let computerSelection = getComputerSelection();
     
-    if (!(gameTracker.gameStarted)) {
+    if (!(gameTracker.hasGameStarted)) {
         updateGameLog("Starting a new game...");
-        gameTracker.gameStarted = true;
+        gameTracker.hasGameStarted = true;
     };
 
     let currRound = gameTracker.roundCount + 1;
     updateGameLog(`Round ${currRound}`);
-    updateGameStatus(`Round ${currRound}`);
+    updateGameStatus(`Round ${currRound + 1}`);
     
     let roundResult = playRound(playerSelection, computerSelection);
     updateGameLog(roundResult);
@@ -102,7 +128,7 @@ function playGame(playerSelection) {
                      (gameTracker.playerScore < gameTracker.computerScore) ? "You Lost the Game": "Draw game"; 
         let gameSummary = `${gameOutcome}! ${gameTracker.playerScore}(You) to ${gameTracker.computerScore}(Computer) with ${gameTracker.draws} draws.`
         updateGameLog(gameSummary);
-        updateGameLog("-----------------");
+        updateGameLog("---------------------------------------------------------------");
         clearGameTracker();
         updateGameStatus("Game Over! Play again?");
     };
@@ -162,11 +188,11 @@ function capitalizeFirstLetter(string) {
     return string.charAt(0).toUpperCase() + string.slice(1);
 };
 
-function sleep(ms) {
-    return new Promise(resolve => setTimeout(resolve, ms));
-  };
-
 function updateScroll(){
     let element = document.querySelector("#gameOutputs");
     element.scrollTop = element.scrollHeight;
-}
+};
+
+function removeScoreTransition(e) {
+    e.target.classList.remove('scoreTransition');
+  }
