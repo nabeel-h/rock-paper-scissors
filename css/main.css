@@ -84,7 +84,24 @@
     justify-content: space-evenly;
 }
 #scores > p {
-    margin: 2px 5px 5px 5px;
+    margin: 5px 5px 5px 5px;
+    padding: 0px 5px 0px 5px;
+}
+
+#playerScore {
+    background-color: green;
+    color: white;
+    border-radius: 20px;
+}
+
+#draws {
+    background-color: yellow;
+    border-radius: 20px;
+}
+
+#computerScore{
+    background-color: red;
+    border-radius: 20px;
 }
 
 #controller > p {
@@ -176,7 +193,7 @@
     }
 
     50% {
-        transform: scale(3.0)
+        transform: scale(1.5)
     }
     100% {
         transform: scale(1.0);
@@ -184,13 +201,17 @@
 }
 
 .gameLogDraw {
-    color:oldlace;
+    background-color: yellow;
+    border-radius: 20px;
 }
 
 .gameLogLose {
-    color: coral;
+    background-color: red;
+    border-radius: 20px;
 }
 
 .gameLogWin {
-    color: deepskyblue;
+    background-color: green;
+    color: white;
+    border-radius: 20px;
 }
